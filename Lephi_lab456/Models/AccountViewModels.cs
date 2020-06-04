@@ -109,4 +109,5 @@ namespace Lephi_lab456.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
 }
