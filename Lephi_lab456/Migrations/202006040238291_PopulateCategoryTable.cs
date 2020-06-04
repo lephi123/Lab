@@ -13,5 +13,6 @@ namespace Lephi_lab456.Migrations
         public override void Down()
         {
         }
+
     }
 }
