@@ -1,41 +1,67 @@
-﻿@model IEnumerable < Lephi_lab456.Models.Course>
+﻿@model Lephi_lab456.ViewModels.CoursesViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 
 
-
-<div class="row">
-    <ul>
-        @foreach (var course in Model)
-        {
-            <li>
-                @course.DateTime - @course.Lecturer.Name
-            </li>
-        }
-    </ul>
-     
-</div>
 <ul class="course">
-    @foreach (var course in Model)
+    @foreach (var cousre in Model.UpcommingCourses)
     {
         <li>
             <div class="date">
                 <div class="month">
-                    @course.DateTime.ToString("MM")
+                    @cousre.DateTime.ToString("MM")
                 </div>
                 <div class="day">
-                    @course.DateTime.ToString("dd")
+                    @cousre.DateTime.ToString("dd")
                 </div>
             </div>
             <div class="details">
                 <span class="lecturer">
-                    @course.Lecturer.Name
+                    @cousre.Lecturer.Name
+                    @if (Model.ShowAction)
+                    {
+                        <button class="btn btn-link btn-sm js-toggle-follow data-user-id=@cousre.LecturerId">Follow</button>
+                    }
                 </span>
                 <span class="category">
-                    @course.Category.Name
+                    @cousre.Category.Name
                 </span>
+                @if (Model.ShowAction)
+                {
+                    <button data-course-id="@cousre.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                }
             </div>
         </li>
     }
 </ul>
+@section scripts
+{
+    <script>
+$(document).ready(function () {
+$(".js-toggle-attendance").click(function (e) {
+var button = $(e.target);
+$.post("/api/attendances", { courseId: button.attr("data-course-id") })
+.done(function () {
+button
+.removeClass("btn-default")
+.addClass("btn-info")
+.text("Going");
+})
+.fail(function () {
+alert("Something failed!");
+});
+});
+$(".js-toggle-follow").click(function (e) {
+var button = $(e.target);
+$.post("/api/followings", { followeeId: button.attr("data-user-id") })
+.done(function () {
+button.text("Following")
+})
+.fail(function () {
+alert("Something failed!");
+});
+});
+});
+    </script>
+}
