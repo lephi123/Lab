@@ -15,6 +15,6 @@ namespace Lephi_lab456.Controllers.Api
         {
             _dbContext = new ApplicationDbContext();
         }
-        [HttpDelete]
+       
     }
 }
