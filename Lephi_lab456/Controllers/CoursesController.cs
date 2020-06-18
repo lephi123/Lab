@@ -54,6 +54,17 @@ namespace Lephi_lab456.Controllers
         }
 
         [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var courses = _dbContext.Courses
+                .Where(c => c.LecturerId == userId && c.DateTime > DateTime.Now)
+                .Include(c => c.Lecturer)
+                .Include(c => c.Category)
+                .ToList();
+            return View(courses);
+        }
+        [Authorize]
         public ActionResult Attending()
         {
             var userId = User.Identity.GetUserId();
@@ -69,17 +80,6 @@ namespace Lephi_lab456.Controllers
                 ShowAction = User.Identity.IsAuthenticated
             };
             return View(viewModel);
-        }
-        [Authorize]
-        public ActionResult Mine()
-        {
-            var userId = User.Identity.GetUserId();
-            var courses = _dbContext.Courses
-                .Where(c => c.LecturerId == userId && c.DateTime > DateTime.Now)
-                .Include(c => c.Lecturer)
-                .Include(c => c.Category)
-                .ToList();
-            return View(courses);
         }
     }
 }
