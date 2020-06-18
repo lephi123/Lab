@@ -26,7 +26,7 @@ namespace Lephi_lab456.Models
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+           
             modelBuilder.Entity<Attendance>()
                 .HasRequired(a => a.Course)
                 .WithMany()
@@ -39,6 +39,7 @@ namespace Lephi_lab456.Models
                 .HasMany(u => u.Followees)
                 .WithRequired(f => f.Follower)
                 .WillCascadeOnDelete(false);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
