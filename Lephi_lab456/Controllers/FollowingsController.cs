@@ -30,6 +30,7 @@ namespace Lephi_lab456.Controllers
                 FolloweeId = followingDto.FolloweeId
             };
 
+
             _dbContext.Followings.Add(folowing);
             _dbContext.SaveChanges();
             return Ok();
